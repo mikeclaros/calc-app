@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CalcButton } from './CalcButton';
+import { CalcDisplay } from './CalcDisplay';
 
 
 
@@ -8,6 +9,9 @@ export function CalcBody() {
 
     return (
         <div>
+            <div>
+                <CalcDisplay value="number" />
+            </div>
             <div>
                 <CalcButton val={7} />
                 <CalcButton val={8} />
