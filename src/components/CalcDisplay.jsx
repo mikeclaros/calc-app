@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import "../index.css"
 
 export function CalcDisplay({ value }) {
-    const [display, setDisplay] = useState(value)
-
     return (
         <h1 className='border-window'>
-            {display}
+            {value}
         </h1>
     )
 }

@@ -5,30 +5,30 @@ import { CalcDisplay } from './CalcDisplay';
 
 
 export function CalcBody() {
-    const [number, setNumber] = useState(0)
+    const [number, setNumber] = useState("")
 
     return (
         <div>
             <div>
-                <CalcDisplay value="number" />
+                <CalcDisplay value={number} />
             </div>
             <div>
-                <CalcButton val={7} />
-                <CalcButton val={8} />
-                <CalcButton val={9} />
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "7")}>7</button>
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "8")}>8</button>
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "9")}>9</button>
             </div>
             <div>
-                <CalcButton val={4} />
-                <CalcButton val={5} />
-                <CalcButton val={6} />
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "4")}>4</button>
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "5")}>5</button>
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "6")}>6</button>
             </div>
             <div>
-                <CalcButton val={1} />
-                <CalcButton val={2} />
-                <CalcButton val={3} />
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "1")}>1</button>
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "2")}>2</button>
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "3")}>3</button>
             </div>
             <div>
-                <CalcButton val={0} />
+                <button className='btn defaultColor roundBtn' onClick={() => setNumber((num) => num + "0")}>0</button>
             </div>
         </div>
     )
