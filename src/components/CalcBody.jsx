@@ -68,7 +68,7 @@ export function CalcBody() {
                 <div>
                     <button className='btn defaultColor roundBtn' onClick={set.zero}>0</button>
                     <button className='btn defaultColor roundBtn' onClick={set.point}>.</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.plus}>+</button>
+                    <button className='btn defaultColor roundBtn' onClick={set.add}>+</button>
                     <button className='btn defaultColor roundBtn' onClick={set.enter}>=</button>
                     {/* <button className='btn defaultColor rountBtn' onCl */}
                 </div>
