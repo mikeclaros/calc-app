@@ -37,6 +37,38 @@ export function CalcBody() {
         point: () => setNumber((num) => num + "."),
     }
 
+    const calculate = () => {
+        console.log("expression to eval: " + number)
+        let pattern = /[\+||\-||\/||X]/g
+        console.log("is there a pattern?: ", pattern)
+        console.log("regex match?: " + number.match(pattern))
+        // let op = number.replace(pattern, " ")
+        let op = number.match(pattern)[0]
+        let operands = number.replace(pattern, " ").split(" ")
+        let op1 = parseFloat(operands[0])
+        let op2 = parseFloat(operands[1])
+        let value
+        switch (op) {
+            case "+":
+                value = op1 + op2
+                break;
+            case "-":
+                value = op1 - op2
+                break;
+            case "/":
+                value = op1 / op2
+                break;
+            case "X":
+                value = op1 * op2
+                break;
+            default:
+                console.log("no match")
+                break;
+        }
+
+        setNumber(() => value)
+    }
+
 
     return (
         <div>
@@ -69,7 +101,7 @@ export function CalcBody() {
                     <button className='btn defaultColor roundBtn' onClick={set.zero}>0</button>
                     <button className='btn defaultColor roundBtn' onClick={set.point}>.</button>
                     <button className='btn defaultColor roundBtn' onClick={set.add}>+</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.enter}>=</button>
+                    <button className='btn defaultColor roundBtn' onClick={calculate}>=</button>
                     {/* <button className='btn defaultColor rountBtn' onCl */}
                 </div>
             </div>
