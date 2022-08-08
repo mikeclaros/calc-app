@@ -18,7 +18,7 @@ export function CalcBody() {
         nine: () => setNumber((num) => num + "9"),
         clear: () => setNumber((num) => ""),
         divide: () => setNumber((num) => num + "/"),
-        multiply: () => setNumber((num) => num + "X"),
+        multiply: () => setNumber((num) => num + "*"),
         subtract: () => setNumber((num) => num + "-"),
         add: () => setNumber((num) => num + "+"),
         enter: () => setNumber((num) => num + "="),
@@ -27,7 +27,7 @@ export function CalcBody() {
 
     const calculate = () => {
         console.log("expression to eval: " + number)
-        let pattern = /[\+|\-|\/|X]/g
+        let pattern = /[\+|\-|\/|\*]/g
         console.log("is there a pattern?: ", pattern)
         console.log("regex match?: " + number.match(pattern))
         // let op = number.replace(pattern, " ")
@@ -46,7 +46,7 @@ export function CalcBody() {
             case "/":
                 value = op1 / op2
                 break;
-            case "X":
+            case "*":
                 value = op1 * op2
                 break;
             default:
