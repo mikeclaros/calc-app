@@ -1,3 +1,4 @@
+import { clear } from '@testing-library/user-event/dist/clear';
 import React, { useEffect, useState } from 'react';
 import { CalcDisplay } from './CalcDisplay';
 
@@ -39,7 +40,7 @@ export function CalcBody() {
 
     const calculate = () => {
         console.log("expression to eval: " + number)
-        let pattern = /[\+||\-||\/||X]/g
+        let pattern = /[\+|\-|\/|X]/g
         console.log("is there a pattern?: ", pattern)
         console.log("regex match?: " + number.match(pattern))
         // let op = number.replace(pattern, " ")
@@ -69,11 +70,27 @@ export function CalcBody() {
         setNumber(() => value)
     }
 
+    function handleKey(e) {
+        //main keys
+        let keyEntered = e.key
+        let pattern = /([0-9])|\+|\-|\/|\*/g
+        let match = keyEntered.match(pattern)
+        if (match)
+            setNumber((num) => num + e.key)
+
+        //other scenarios
+        if (e.key === "c")
+            setNumber((num) => "")
+
+        if (e.key === "Enter")
+            calculate()
+    }
+
 
     return (
         <div>
             <div>
-                <div>
+                <div tabIndex={0} onKeyDown={(e) => handleKey(e)}>
                     <CalcDisplay value={number} />
                 </div>
                 <div>
