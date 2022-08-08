@@ -5,19 +5,6 @@ import { CalcDisplay } from './CalcDisplay';
 export function CalcBody() {
     const [number, setNumber] = useState("")
 
-    // function displayButtons() {
-    //     let btnClassName = 'btn defaultColor rountBtn'
-    //     let operators = ["/", "X", "-", "+"]
-    //     let numbers = 9
-    //     let map = new Map()
-    //     //map buttons to their position in the array
-    //     for (let i = 0; i < maxInRow; i++) {
-    //         map(<button className={btnClassName} onClick={() => setNumber((val) => val + i.toString())}>{val}</button>)
-    //     }
-
-    //     return arr
-    // }
-
     const set = {
         zero: () => setNumber((num) => num + "0"),
         one: () => setNumber((num) => num + "1"),
