@@ -26,35 +26,107 @@ export function CalcBody() {
     }
 
     const calculate = () => {
+        //postfix notation implementation
         console.log("expression to eval: " + number)
-        let pattern = /[\+|\-|\/|\*]/g
-        console.log("is there a pattern?: ", pattern)
-        console.log("regex match?: " + number.match(pattern))
-        // let op = number.replace(pattern, " ")
-        let op = number.match(pattern)[0]
-        let operands = number.replace(pattern, " ").split(" ")
-        let op1 = parseFloat(operands[0])
-        let op2 = parseFloat(operands[1])
-        let value
-        switch (op) {
-            case "+":
-                value = op1 + op2
-                break;
-            case "-":
-                value = op1 - op2
-                break;
-            case "/":
-                value = op1 / op2
-                break;
-            case "*":
-                value = op1 * op2
-                break;
-            default:
-                console.log("no match")
-                break;
+        let expression = spacedExpression(number)
+        let postfix = createPostFixString(expression)
+        console.log("postfix array: ", postfix)
+        setNumber(() => processPostFix(postfix))
+    }
+
+    function spacedExpression(number) {
+        let expression = number.split("")
+        let numPattern = /[0-9]/g
+        let spacesIncluded = ""
+        expression.forEach(val => {
+            if (val.match(numPattern)) {
+                spacesIncluded += val
+            } else {
+                //not number return with space before and after
+                spacesIncluded += " " + val + " "
+            }
+        })
+        return spacesIncluded
+    }
+
+    function createPostFixString(expression) {
+        let priority = { //based on shunting yard algorithm aka reverse polish notation
+            "*": 3,
+            "/": 3,
+            "+": 2,
+            "-": 2
         }
 
-        setNumber(() => value)
+        let tokens = expression.split(" ")
+        let ops = [], postfix = []
+        let operPattern = /[\+|\-|\/|\*]/g
+        let numPattern = /[0-9]/g
+        while (tokens.length > 0) {
+            //let token = tokens[i++]
+            let token = tokens.shift()
+            if (token.match(numPattern)) {
+                postfix.push(token)
+            } else if (token.match(operPattern)) {
+                if (ops.length == 0) {
+                    ops.unshift(token)
+                } else {
+                    // if ops2 has more precedence then, pop ops2
+                    for (let j = 0; j < ops.length; j++) {
+                        // scenarios to pop op2
+                        // if op2(stack token) is higher priority
+                        let op1 = priority[token]
+                        let op2 = priority[ops[j]]
+                        if (op1 <= op2) {
+                            postfix.push(ops.shift()) //shift pops... js is weird
+                        }
+                    }
+                    ops.unshift(token)
+                }
+            }
+        }
+        while (ops.length > 0) {
+            postfix.push(ops.shift())
+        }
+        console.log("postfix array: " + postfix)
+        return postfix
+    }
+
+    function processPostFix(arr) {
+        let pattern = /[\+|\-|\/|\*]/g
+        let stack = []
+        while (arr.length > 0) {
+            let item = arr.shift()
+            if (item.match(pattern)) {
+                console.log("op: ", item)
+                let right = parseFloat(stack.pop())
+                let left = parseFloat(stack.pop())
+                let value
+                console.log(`Calc being performed: ${left.toString()} ${item} ${right.toString()}`)
+                switch (item) {
+                    case "+":
+                        value = left + right
+                        break
+                    case "-":
+                        value = left - right
+                        break
+                    case "/":
+                        value = left / right
+                        break
+                    case "*":
+                        value = left * right
+                        break
+                    default:
+                        console.log("no match")
+                        break
+                }
+                stack.push(value)
+            } else {
+                stack.push(item)
+            }
+            console.log("stack: ", stack)
+        }
+        console.log("stack: ", stack)
+        return stack[0]
     }
 
     function handleKey(e) {
