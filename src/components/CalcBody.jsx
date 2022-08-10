@@ -29,12 +29,36 @@ export function CalcBody() {
     const calculate = () => {
         //postfix notation implementation
         console.log("expression to eval: " + number)
-        let expression = spacedExpression(number)
-        let postfix = createPostFixString(expression)
-        console.log("postfix array: ", postfix)
-        let val = processPostFix(postfix)
-        setNumber(() => val)
-        historyList.push(`${expression} = ${val}`)
+        let isValidExpression = validateInput(number)
+        if (!isValidExpression) {
+            console.log("invalid expression found")
+            setNumber(() => "Syntax Error")
+        } else {
+            let expression = spacedExpression(number)
+            let postfix = createPostFixString(expression)
+            console.log("postfix array: ", postfix)
+            let val = processPostFix(postfix)
+            setNumber(() => val)
+            historyList.push(`${expression} = ${val}`)
+        }
+    }
+
+    function validateInput(expression) {
+        // we don't want consecutive same tokens
+        // we don't want consecutive operator tokens (i.e 2+-2)
+        let tokens = expression.split("")
+        let pattern = /[\+|\-|\/|\*|\.]/g
+        for (let i = 0; i < tokens.length; i++) {
+            if (i + 1 < tokens.length) {
+                let token = tokens[i]
+                if (token.match(pattern)) {
+                    let nextToken = tokens[i + 1]
+                    if (nextToken.match(pattern))
+                        return false
+                }
+            }
+        }
+        return true
     }
 
     function spacedExpression(number) {
