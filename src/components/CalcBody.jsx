@@ -98,11 +98,12 @@ export function CalcBody() {
                     ops.unshift(token)
                 } else {
                     // if ops2 has more precedence then, pop ops2
-                    for (let j = 0; j < ops.length; j++) {
+                    let temp = JSON.parse(JSON.stringify(ops))
+                    for (let j = 0; j < temp.length; j++) {
                         // scenarios to pop op2
                         // if op2(stack token) is higher priority
                         let op1 = priority[token]
-                        let op2 = priority[ops[j]]
+                        let op2 = priority[temp[j]]
                         if (op1 <= op2) {
                             postfix.push(ops.shift()) //shift pops... js is weird
                         }
@@ -110,6 +111,8 @@ export function CalcBody() {
                     ops.unshift(token)
                 }
             }
+            console.log("output stack: ", postfix)
+            console.log("op stack: ", ops)
         }
         while (ops.length > 0) {
             postfix.push(ops.shift())
