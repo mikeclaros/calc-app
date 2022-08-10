@@ -39,7 +39,7 @@ export function CalcBody() {
 
     function spacedExpression(number) {
         let expression = number.split("")
-        let numPattern = /[0-9]/g
+        let numPattern = /[0-9]|\./g
         let spacesIncluded = ""
         expression.forEach(val => {
             if (val.match(numPattern)) {
@@ -143,9 +143,10 @@ export function CalcBody() {
         //other scenarios
         if (e.key === "c")
             setNumber((num) => "")
-
         if (e.key === "Enter")
             calculate()
+        if (e.key === ".")
+            setNumber((num) => num + ".")
     }
 
 
