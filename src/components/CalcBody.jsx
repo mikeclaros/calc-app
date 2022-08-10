@@ -1,9 +1,10 @@
-import { clear } from '@testing-library/user-event/dist/clear';
-import React, { useEffect, useState } from 'react';
-import { CalcDisplay } from './CalcDisplay';
+import { clear } from '@testing-library/user-event/dist/clear'
+import React, { useEffect, useState } from 'react'
+import { CalcDisplay } from './CalcDisplay'
 
 export function CalcBody() {
     const [number, setNumber] = useState("")
+    const [historyList, setHistoryList] = useState([])
 
     const set = {
         zero: () => setNumber((num) => num + "0"),
@@ -31,7 +32,9 @@ export function CalcBody() {
         let expression = spacedExpression(number)
         let postfix = createPostFixString(expression)
         console.log("postfix array: ", postfix)
-        setNumber(() => processPostFix(postfix))
+        let val = processPostFix(postfix)
+        setNumber(() => val)
+        historyList.push(`${expression} = ${val}`)
     }
 
     function spacedExpression(number) {
@@ -154,6 +157,9 @@ export function CalcBody() {
                 </div>
                 <div>
                     <button className='btn defaultColor roundBtn' onClick={set.clear}>C</button>
+                    <h1 className='history-window'>
+                        {historyList.map((data, index) => <li className='bullet-less' key={index + data}>{data}</li>)}
+                    </h1>
                 </div>
                 <div>
                     <button className='btn defaultColor roundBtn' onClick={set.seven}>7</button>
