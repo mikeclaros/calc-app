@@ -28,6 +28,7 @@
   background-color: #c7e0e6;
   text-align: right;
   font-size: 25px;
+  font-family: "Lucida Console", "Courier New", monospace;
   color: #0a1113;
 }
 
@@ -38,7 +39,8 @@
   padding: 10px 10px;
   background-color: #4c699e;
   text-align: right;
-  font-size: 20px;
+  font-size: 18px;
+  font-family: "Lucida Console", "Courier New", monospace;
   color: black;
 }
 
