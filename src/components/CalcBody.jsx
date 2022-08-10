@@ -5,26 +5,7 @@ import { CalcDisplay } from './CalcDisplay'
 export function CalcBody() {
     const [number, setNumber] = useState("")
     const [historyList, setHistoryList] = useState([])
-
-    const set = {
-        zero: () => setNumber((num) => num + "0"),
-        one: () => setNumber((num) => num + "1"),
-        two: () => setNumber((num) => num + "2"),
-        three: () => setNumber((num) => num + "3"),
-        four: () => setNumber((num) => num + "4"),
-        five: () => setNumber((num) => num + "5"),
-        six: () => setNumber((num) => num + "6"),
-        seven: () => setNumber((num) => num + "7"),
-        eight: () => setNumber((num) => num + "8"),
-        nine: () => setNumber((num) => num + "9"),
-        clear: () => setNumber((num) => ""),
-        divide: () => setNumber((num) => num + "/"),
-        multiply: () => setNumber((num) => num + "*"),
-        subtract: () => setNumber((num) => num + "-"),
-        add: () => setNumber((num) => num + "+"),
-        enter: () => setNumber((num) => num + "="),
-        point: () => setNumber((num) => num + "."),
-    }
+    const [prevCalculated, setCalculated] = useState(false)
 
     const calculate = () => {
         //postfix notation implementation
@@ -39,8 +20,10 @@ export function CalcBody() {
             console.log("postfix array: ", postfix)
             let val = processPostFix(postfix)
             setNumber(() => val)
-            historyList.push(`${expression} = ${val}`)
+            //historyList.push(`${expression} = ${val}`)
+            setHistoryList(() => [...historyList, [`${expression} = ${val}`]])
         }
+        setCalculated(() => true)
     }
 
     function validateInput(expression) {
@@ -159,8 +142,17 @@ export function CalcBody() {
         return stack[0]
     }
 
+    function checkPrevCalculated() {
+        if (prevCalculated) {
+            console.log('clearing')
+            setNumber(() => "")
+            setCalculated(() => false)
+        }
+    }
+
     function handleKey(e) {
         //main keys
+        checkPrevCalculated()
         let keyEntered = e.key
         let pattern = /([0-9])|\+|\-|\/|\*/g
         let match = keyEntered.match(pattern)
@@ -176,43 +168,56 @@ export function CalcBody() {
             setNumber((num) => num + ".")
     }
 
+    function handleClick(e) {
+        let val = e.target.innerText
+        checkPrevCalculated()
+        if (val === "C") {
+            setNumber(() => "")
+        } else if (val === "X") {
+            setNumber((num) => num + "*")
+        } else {
+            setNumber((num) => num + val)
+        }
+    }
+
+
 
     return (
         <div>
             <div>
                 <div tabIndex={0} onKeyDown={(e) => handleKey(e)}>
+                    {/* <CalcDisplay value={(prevCalculated) ? "" : number} /> */}
                     <CalcDisplay value={number} />
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={set.clear}>C</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>C</button>
                     <h1 className='history-window'>
                         {historyList.map((data, index) => <li className='bullet-less' key={index + data}>{data}</li>)}
                     </h1>
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={set.seven}>7</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.eight}>8</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.nine}>9</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.multiply}>X</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>7</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>8</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>9</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>X</button>
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={set.four}>4</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.five}>5</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.six}>6</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.subtract}>-</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>4</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>5</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>6</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>-</button>
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={set.one}>1</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.two}>2</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.three}>3</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.divide}>/</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>1</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>2</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>3</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>/</button>
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={set.zero}>0</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.point}>.</button>
-                    <button className='btn defaultColor roundBtn' onClick={set.add}>+</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>0</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>.</button>
+                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>+</button>
                     <button className='btn defaultColor roundBtn' onClick={calculate}>=</button>
-                    {/* <button className='btn defaultColor rountBtn' onCl */}
                 </div>
             </div>
         </div >
