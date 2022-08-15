@@ -4,8 +4,12 @@ import { CalcDisplay } from './CalcDisplay'
 
 export function CalcBody() {
     const [number, setNumber] = useState("")
-    const [historyList, setHistoryList] = useState([])
+    const [historyList, setHistoryList] = useState(JSON.parse(localStorage.getItem('historyList')) || [])
     const [prevCalculated, setCalculated] = useState(false)
+
+    useEffect(() => {
+        localStorage.setItem('historyList', JSON.stringify(historyList))
+    }, [historyList])
 
     const calculate = () => {
         //postfix notation implementation
@@ -22,6 +26,7 @@ export function CalcBody() {
             setNumber(() => val)
             //historyList.push(`${expression} = ${val}`)
             setHistoryList(() => [...historyList, [`${expression} = ${val}`]])
+            //localStorage.setItem('historyList', JSON.stringify(historyList))
         }
         setCalculated(() => true)
     }
@@ -60,7 +65,7 @@ export function CalcBody() {
     }
 
     function createPostFixString(expression) {
-        let priority = { //based on shunting yard algorithm aka reverse polish notation
+        let priority = { //based on shunting yard algorithm
             "*": 3,
             "/": 3,
             "+": 2,
@@ -192,7 +197,8 @@ export function CalcBody() {
                 <div>
                     <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>C</button>
                     <h1 className='history-window'>
-                        {historyList.map((data, index) => <li className='bullet-less' key={index + data}>{data}</li>)}
+                        {console.log("HistoryList: ", historyList)} {console.log("localStorage: ", localStorage.getItem('historyList'))}
+                        {(historyList.length < 1) ? console.log('empty historyList') : historyList.map((data, index) => <li className='bullet-less' key={index + data}>{data}</li>)}
                     </h1>
                 </div>
                 <div>
