@@ -1,6 +1,6 @@
-import { clear } from '@testing-library/user-event/dist/clear'
 import React, { useEffect, useState } from 'react'
 import { CalcDisplay } from './CalcDisplay'
+import { Banner } from './Banner'
 
 export function CalcBody() {
     const [number, setNumber] = useState("")
@@ -194,6 +194,7 @@ export function CalcBody() {
 
     return (
         <div>
+            <Banner />
             <div>
                 <div tabIndex={0} onKeyDown={(e) => handleKey(e)}>
                     <CalcDisplay value={number} />
