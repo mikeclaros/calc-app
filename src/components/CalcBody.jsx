@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { CalcDisplay } from './CalcDisplay'
 import { Banner } from './Banner'
+import { HistoryDisplay } from './HistoryDisplay'
 
 export function CalcBody() {
     const [number, setNumber] = useState("")
@@ -195,17 +196,16 @@ export function CalcBody() {
     return (
         <div>
             <Banner />
-            <div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
                 <div tabIndex={0} onKeyDown={(e) => handleKey(e)}>
                     <CalcDisplay value={number} />
                 </div>
                 <div>
+                    {(historyList.length < 1) ? <HistoryDisplay value={[]} /> : <HistoryDisplay value={historyList} />}
+                </div>
+                <div>
                     <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>C</button>
                     <button className='btn defaultColor roundBtn' onClick={(e) => handleClearClick(e)}>CH</button>
-                    <h1 className='history-window'>
-                        {console.log("HistoryList: ", historyList)} {console.log("localStorage: ", localStorage.getItem('historyList'))}
-                        {(historyList.length < 1) ? console.log('empty historyList') : historyList.map((data, index) => <li className='bullet-less' key={index + data}>{data}</li>)}
-                    </h1>
                 </div>
                 <div>
                     <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>7</button>

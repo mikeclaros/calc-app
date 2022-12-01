@@ -1,54 +1,55 @@
 .btn {
-  border: 1px solid black;
-  background-color: white;
-  color: black;
-  padding: 15px 20px 10px 15px;
-  font-size: 12px;
-  cursor: pointer;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+    padding: 15px 20px 10px 15px;
+    font-size: 12px;
+    cursor: pointer;
 }
 
 .defaultColor {
-  border-color: #4c699e;
-  background-color: #69b9c8;
-  color: black;
+    border-color: #4c699e;
+    background-color: #69b9c8;
+    color: black;
 }
 
 .defaultColor:hover {
-  background-color: #4c699e;
-  color: white;
+    background-color: #4c699e;
+    color: white;
 }
 
 .roundBtn {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 .border-window {
-  border: 1px solid black;
-  padding: 20px 20px;
-  background-color: #c7e0e6;
-  text-align: right;
-  font-size: 25px;
-  font-family: "Lucida Console", "Courier New", monospace;
-  color: #0a1113;
+    border: 1px solid black;
+    padding: 20px 20px;
+    background-color: #c7e0e6;
+    text-align: right;
+    font-size: 25px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: #0a1113;
 }
 
 .history-window {
-  float: inline-end;
-  border: 1px solid black;
-  width: 300px;
-  padding: 10px 10px;
-  background-color: #4c699e;
-  text-align: right;
-  font-size: 18px;
-  font-family: "Lucida Console", "Courier New", monospace;
-  color: black;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    width: 300px;
+    padding: 10px 10px;
+    background-color: #4c699e;
+    text-align: right;
+    font-size: 18px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: black;
 }
 
 .text-right {
-  float: right;
-  overflow: auto;
+    float: right;
+    overflow: auto;
 }
 
 .bullet-less {
-  list-style: none;
+    list-style: none;
 }
