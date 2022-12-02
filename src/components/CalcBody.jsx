@@ -197,11 +197,8 @@ export function CalcBody() {
         <div>
             <Banner />
             <div style={{ display: "flex", flexDirection: "column" }}>
-                <div tabIndex={0} onKeyDown={(e) => handleKey(e)}>
+                <div className='border-window' tabIndex={0} onKeyDown={(e) => handleKey(e)}>
                     <CalcDisplay value={number} />
-                </div>
-                <div>
-                    {(historyList.length < 1) ? <HistoryDisplay value={[]} /> : <HistoryDisplay value={historyList} />}
                 </div>
                 <div>
                     <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>C</button>
@@ -230,6 +227,9 @@ export function CalcBody() {
                     <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>.</button>
                     <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>+</button>
                     <button className='btn defaultColor roundBtn' onClick={calculate}>=</button>
+                </div>
+                <div>
+                    {(historyList.length < 1) ? <HistoryDisplay value={[]} /> : <HistoryDisplay value={historyList} />}
                 </div>
             </div>
         </div >
