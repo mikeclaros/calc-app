@@ -191,8 +191,12 @@ export function CalcBody() {
         setHistoryList(() => [])
     }
 
-
-
+    const CLEAR = ["C", "CH"]
+    const opsRow1 = ["7", "8", "9", "X"]
+    const opsRow2 = ["4", "5", "6", "-"]
+    const opsRow3 = ["1", "2", "3", "/"]
+    const opsRow4 = ["0", ".", "+"]
+    const BTN_CLASSNAME = 'btn defaultColor roundBtn'
     return (
         <div>
             <Banner />
@@ -201,37 +205,26 @@ export function CalcBody() {
                     <CalcDisplay value={number} />
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>C</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClearClick(e)}>CH</button>
+                    <button className={BTN_CLASSNAME} onClick={(e) => handleKey(e)}>{CLEAR[0]}</button>
+                    <button className={BTN_CLASSNAME} onClick={(e) => handleClearClick(e)}>{CLEAR[1]}</button>
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>7</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>8</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>9</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>X</button>
+                    {opsRow1.map((ops, index) => <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>4</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>5</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>6</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>-</button>
+                    {opsRow2.map((ops, index) => <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>1</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>2</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>3</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>/</button>
+                    {opsRow3.map((ops, index) => <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
                 </div>
                 <div>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>0</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>.</button>
-                    <button className='btn defaultColor roundBtn' onClick={(e) => handleClick(e)}>+</button>
+                    {opsRow4.map((ops, index) => <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
                     <button className='btn defaultColor roundBtn' onClick={calculate}>=</button>
                 </div>
                 <div>
                     {(historyList.length < 1) ? <HistoryDisplay value={[]} /> : <HistoryDisplay value={historyList} />}
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
