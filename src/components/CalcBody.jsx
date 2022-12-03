@@ -204,22 +204,24 @@ export function CalcBody() {
                 <div className='border-window' tabIndex={0} onKeyDown={(e) => handleKey(e)}>
                     <CalcDisplay value={number} />
                 </div>
-                <div>
-                    <button className={BTN_CLASSNAME} onClick={(e) => handleKey(e)}>{CLEAR[0]}</button>
-                    <button className={BTN_CLASSNAME} onClick={(e) => handleClearClick(e)}>{CLEAR[1]}</button>
-                </div>
-                <div>
-                    {opsRow1.map((ops, index) => <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
-                </div>
-                <div>
-                    {opsRow2.map((ops, index) => <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
-                </div>
-                <div>
-                    {opsRow3.map((ops, index) => <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
-                </div>
-                <div>
-                    {opsRow4.map((ops, index) => <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
-                    <button className='btn defaultColor roundBtn' onClick={calculate}>=</button>
+                <div style={{ width: "25em", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+                    <div>
+                        <button className={BTN_CLASSNAME} onClick={(e) => handleKey(e)}>{CLEAR[0]}</button>
+                        <button className={BTN_CLASSNAME} onClick={(e) => handleClearClick(e)}>{CLEAR[1]}</button>
+                    </div>
+                    <div>
+                        {opsRow1.map((ops, index) => <button key={index} className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
+                    </div>
+                    <div>
+                        {opsRow2.map((ops, index) => <button key={index} className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
+                    </div>
+                    <div>
+                        {opsRow3.map((ops, index) => <button key={index} className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
+                    </div>
+                    <div>
+                        {opsRow4.map((ops, index) => <button key={index} className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
+                        <button className='btn defaultColor roundBtn' onClick={calculate}>=</button>
+                    </div>
                 </div>
                 <div>
                     {(historyList.length < 1) ? <HistoryDisplay value={[]} /> : <HistoryDisplay value={historyList} />}
