@@ -181,17 +181,29 @@ export function CalcBody() {
             calculate()
         if (e.key === ".")
             setNumber((num) => num + ".")
+        if (e.key === "Backspace")
+            handleBackSpace(e)
     }
 
     function handleClick(e) {
         let val = e.target.innerText
         checkPrevCalculated()
-        if (val === "C") {
-            setNumber(() => "")
-        } else if (val === "X") {
-            setNumber((num) => num + "*")
-        } else {
-            setNumber((num) => num + val)
+        switch (val) {
+            case "C":
+                setNumber(() => "")
+                break;
+            case "X":
+                setNumber((num) => num + "*")
+                break;
+            case "BACKSPACE":
+                handleBackSpace(e)
+                break;
+            case "CH":
+                handleClearClick(e)
+                break;
+            default:
+                setNumber((num) => num + val)
+                break;
         }
     }
 
@@ -222,9 +234,9 @@ export function CalcBody() {
                 </div>
                 <div style={{ width: "25em", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
                     <div>
-                        <button className={BACKBTN_CLASSNAME} onClick={(e) => handleBackSpace(e)}>{CLEAR[0]}</button>
-                        <button className={BTN_CLASSNAME} onClick={(e) => handleKey(e)}>{CLEAR[1]}</button>
-                        <button className={BTN_CLASSNAME} onClick={(e) => handleClearClick(e)}>{CLEAR[2]}</button>
+                        <button className={BACKBTN_CLASSNAME} onClick={(e) => handleClick(e)}>{CLEAR[0]}</button>
+                        <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{CLEAR[1]}</button>
+                        <button className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{CLEAR[2]}</button>
                     </div>
                     <div>
                         {opsRow1.map((ops, index) => <button key={index} className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
