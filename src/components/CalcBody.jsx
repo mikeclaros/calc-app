@@ -200,12 +200,18 @@ export function CalcBody() {
         setHistoryList(() => [])
     }
 
-    const CLEAR = ["C", "CH"]
+    function handleBackSpace(e) {
+        //TBD
+    }
+
+    const CLEAR = ["BACKSPACE", "C", "CH"]
     const opsRow1 = ["7", "8", "9", "X"]
     const opsRow2 = ["4", "5", "6", "-"]
     const opsRow3 = ["1", "2", "3", "/"]
     const opsRow4 = ["0", ".", "+"]
     const BTN_CLASSNAME = 'btn defaultColor roundBtn'
+    const BACKBTN_CLASSNAME = 'btn defaultColor backSpaceBtn'
+
     return (
         <div>
             <Banner />
@@ -215,8 +221,9 @@ export function CalcBody() {
                 </div>
                 <div style={{ width: "25em", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
                     <div>
-                        <button className={BTN_CLASSNAME} onClick={(e) => handleKey(e)}>{CLEAR[0]}</button>
-                        <button className={BTN_CLASSNAME} onClick={(e) => handleClearClick(e)}>{CLEAR[1]}</button>
+                        <button className={BACKBTN_CLASSNAME} onClick={(e) => handleBackSpace(e)}>{CLEAR[0]}</button>
+                        <button className={BTN_CLASSNAME} onClick={(e) => handleKey(e)}>{CLEAR[1]}</button>
+                        <button className={BTN_CLASSNAME} onClick={(e) => handleClearClick(e)}>{CLEAR[2]}</button>
                     </div>
                     <div>
                         {opsRow1.map((ops, index) => <button key={index} className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
