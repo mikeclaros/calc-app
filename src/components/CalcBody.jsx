@@ -201,7 +201,8 @@ export function CalcBody() {
     }
 
     function handleBackSpace(e) {
-        //TBD
+        if (prevCalculated) return
+        setNumber(() => number.slice(0, number.length - 1))
     }
 
     const CLEAR = ["BACKSPACE", "C", "CH"]
