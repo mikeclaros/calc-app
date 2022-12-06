@@ -7,6 +7,7 @@ export function CalcBody() {
     const [number, setNumber] = useState("")
     const [historyList, setHistoryList] = useState(JSON.parse(localStorage.getItem('historyList')) || [])
     const [prevCalculated, setCalculated] = useState(false)
+    const HISTORY_LEN = 10
 
     useEffect(() => {
         localStorage.setItem('historyList', JSON.stringify(historyList))
@@ -25,9 +26,17 @@ export function CalcBody() {
             console.log("postfix array: ", postfix)
             let val = processPostFix(postfix)
             setNumber(() => val)
-            //historyList.push(`${expression} = ${val}`)
-            setHistoryList(() => [...historyList, [`${expression} = ${val}`]])
-            //localStorage.setItem('historyList', JSON.stringify(historyList))
+
+            let count = 0
+            historyList.forEach(element => { //count empty spaces
+                (element === undefined) ? console.log("element empty") : count++
+            })
+            let element = [`${expression} = ${val}`]
+            console.log("count: " + count)
+            setHistoryList(() =>
+                (count < HISTORY_LEN) ? [...historyList, element] : [element]
+            )
+            // useEffect is setting the history
         }
         setCalculated(() => true)
     }
