@@ -7,6 +7,7 @@ export function CalcBody() {
     const [number, setNumber] = useState("")
     const [historyList, setHistoryList] = useState(JSON.parse(sessionStorage.getItem('historyList')) || [])
     const [prevCalculated, setCalculated] = useState(false)
+    const [active, setActive] = useState(false)
     const HISTORY_LEN = 10
 
     useEffect(() => {
@@ -169,6 +170,7 @@ export function CalcBody() {
     function handleKey(e) {
         //main keys
         checkPrevCalculated()
+        setActive((active) => (active) ? !active : active) //if active then deactivate
         let keyEntered = e.key
         let pattern = /([0-9])|\+|-|\/|\*/g
         let match = keyEntered.match(pattern)
@@ -189,6 +191,7 @@ export function CalcBody() {
     function handleClick(e) {
         let val = e.target.innerText
         checkPrevCalculated()
+        setActive((active) => (active) ? !active : active) //if active then deactivate
         switch (val) {
             case "C":
                 setNumber(() => "")
@@ -218,6 +221,10 @@ export function CalcBody() {
         setNumber(() => number.slice(0, number.length - 1))
     }
 
+    function handleDivActive(e) {
+        setActive((active) => !active) //toggle
+    }
+
     const CLEAR = ["BACKSPACE", "C", "AC"]
     const opsRow1 = ["7", "8", "9", "X"]
     const opsRow2 = ["4", "5", "6", "-"]
@@ -225,12 +232,14 @@ export function CalcBody() {
     const opsRow4 = ["0", ".", "+"]
     const BTN_CLASSNAME = 'btn defaultColor btnSmaller'
     const BACKBTN_CLASSNAME = 'btn defaultColor btnBackSpace'
+    const HIGHLIGHT = 'highlight'
 
     return (
         <div>
             <Banner />
             <div style={{ display: "flex", flexDirection: "column" }}>
-                <div className='border-window' tabIndex={0} onKeyDown={(e) => handleKey(e)}>
+                <div id='display' className={(active) ? HIGHLIGHT + ' border-window' : 'border-window'} tabIndex={0} onKeyDown={(e) => handleKey(e)} onClick={(e) => handleDivActive(e)}>
+                    {/* <div className={HIGHLIGHT + ' border-window'} tabIndex={0} onKeyDown={(e) => handleKey(e)} onClick={(e) => e.target.classList.toggle(HIGHLIGHT)}> */}
                     <CalcDisplay value={number} />
                 </div>
                 <div style={{ width: "25em", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
