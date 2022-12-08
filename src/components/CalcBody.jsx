@@ -199,7 +199,7 @@ export function CalcBody() {
             case "BACKSPACE":
                 handleBackSpace(e)
                 break;
-            case "CH":
+            case "AC":
                 handleClearClick(e)
                 break;
             default:
@@ -218,7 +218,7 @@ export function CalcBody() {
         setNumber(() => number.slice(0, number.length - 1))
     }
 
-    const CLEAR = ["BACKSPACE", "C", "CH"]
+    const CLEAR = ["BACKSPACE", "C", "AC"]
     const opsRow1 = ["7", "8", "9", "X"]
     const opsRow2 = ["4", "5", "6", "-"]
     const opsRow3 = ["1", "2", "3", "/"]
