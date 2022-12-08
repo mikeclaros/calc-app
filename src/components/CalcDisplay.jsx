@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import "../index.css"
 
 export function CalcDisplay({ value }) {

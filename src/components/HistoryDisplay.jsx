@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 
 export function HistoryDisplay({ value }) {
-    const [historyList, setHistoryList] = [value]
+    const [historyList] = [value]
 
     return (
         <div>

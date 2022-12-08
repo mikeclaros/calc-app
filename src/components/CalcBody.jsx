@@ -46,7 +46,7 @@ export function CalcBody() {
         // we don't want consecutive same tokens
         // we don't want consecutive operator tokens (i.e 2+-2)
         let tokens = expression.split("")
-        let pattern = /[\+|\-|\/|\*|\.]/g
+        let pattern = /[+|\-|/|*|.]/g
         for (let i = 0; i < tokens.length; i++) {
             if (i + 1 < tokens.length) {
                 let token = tokens[i]
@@ -85,7 +85,7 @@ export function CalcBody() {
 
         let tokens = expression.split(" ")
         let ops = [], postfix = []
-        let operPattern = /[\+|\-|\/|\*]/g
+        let operPattern = /[+|\-|/|*]/g
         let numPattern = /[0-9]/g
         while (tokens.length > 0) {
             //let token = tokens[i++]
@@ -93,7 +93,7 @@ export function CalcBody() {
             if (token.match(numPattern)) {
                 postfix.push(token)
             } else if (token.match(operPattern)) {
-                if (ops.length == 0) {
+                if (ops.length === 0) {
                     ops.unshift(token)
                 } else {
                     // if ops2 has more precedence then, pop ops2
@@ -121,7 +121,7 @@ export function CalcBody() {
     }
 
     function processPostFix(arr) {
-        let pattern = /[\+|\-|\/|\*]/g
+        let pattern = /[+|\-|/|*]/g
         let stack = []
         while (arr.length > 0) {
             let item = arr.shift()
@@ -170,7 +170,7 @@ export function CalcBody() {
         //main keys
         checkPrevCalculated()
         let keyEntered = e.key
-        let pattern = /([0-9])|\+|\-|\/|\*/g
+        let pattern = /([0-9])|\+|-|\/|\*/g
         let match = keyEntered.match(pattern)
         if (match)
             setNumber((num) => num + e.key)
