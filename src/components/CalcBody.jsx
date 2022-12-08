@@ -15,6 +15,7 @@ export function CalcBody() {
 
     const calculate = () => {
         //postfix notation implementation
+
         console.log("expression to eval: " + number)
         let isValidExpression = validateInput(number)
         if (!isValidExpression) {
