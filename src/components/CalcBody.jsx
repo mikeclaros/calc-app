@@ -223,8 +223,8 @@ export function CalcBody() {
     const opsRow2 = ["4", "5", "6", "-"]
     const opsRow3 = ["1", "2", "3", "/"]
     const opsRow4 = ["0", ".", "+"]
-    const BTN_CLASSNAME = 'btn defaultColor roundBtn'
-    const BACKBTN_CLASSNAME = 'btn defaultColor backSpaceBtn'
+    const BTN_CLASSNAME = 'btn defaultColor btnSmaller'
+    const BACKBTN_CLASSNAME = 'btn defaultColor btnBackSpace'
 
     return (
         <div>
@@ -250,7 +250,7 @@ export function CalcBody() {
                     </div>
                     <div>
                         {opsRow4.map((ops, index) => <button key={index} className={BTN_CLASSNAME} onClick={(e) => handleClick(e)}>{ops}</button>)}
-                        <button className='btn defaultColor roundBtn' onClick={calculate}>=</button>
+                        <button className={BTN_CLASSNAME} onClick={calculate}>=</button>
                     </div>
                 </div>
                 <div>

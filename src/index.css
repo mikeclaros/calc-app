@@ -22,7 +22,9 @@
     border-radius: 50%;
 }
 
-.backSpaceBtn {
+.btnGeneric,
+.btnBackSpace,
+.btnSmaller {
     border-bottom-right-radius: 20%;
     border-bottom-left-radius: 10%;
     border-top-right-radius: 10%;
@@ -31,9 +33,16 @@
     margin-left: -0.7%;
     margin-right: 0.5%;
     padding-top: 11px;
-    width: 75px;
     padding-left: 8px;
     font-size: 10px;
+}
+
+.btnBackSpace {
+    width: 75px;
+}
+
+.btnSmaller {
+    width: 50px;
 }
 
 .border-window {
