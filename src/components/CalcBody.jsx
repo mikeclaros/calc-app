@@ -5,12 +5,12 @@ import { HistoryDisplay } from './HistoryDisplay'
 
 export function CalcBody() {
     const [number, setNumber] = useState("")
-    const [historyList, setHistoryList] = useState(JSON.parse(localStorage.getItem('historyList')) || [])
+    const [historyList, setHistoryList] = useState(JSON.parse(sessionStorage.getItem('historyList')) || [])
     const [prevCalculated, setCalculated] = useState(false)
     const HISTORY_LEN = 10
 
     useEffect(() => {
-        localStorage.setItem('historyList', JSON.stringify(historyList))
+        sessionStorage.setItem('historyList', JSON.stringify(historyList))
     }, [historyList])
 
     const calculate = () => {
@@ -209,7 +209,7 @@ export function CalcBody() {
     }
 
     function handleClearClick(e) {
-        localStorage.clear()
+        sessionStorage.clear()
         setHistoryList(() => [])
     }
 
