@@ -202,7 +202,7 @@ export function CalcBody() {
             case "BACKSPACE":
                 handleBackSpace(e)
                 break;
-            case "AC":
+            case "CH":
                 handleClearClick(e)
                 break;
             default:
@@ -225,7 +225,7 @@ export function CalcBody() {
         setActive((active) => !active) //toggle
     }
 
-    const CLEAR = ["BACKSPACE", "C", "AC"]
+    const CLEAR = ["BACKSPACE", "C", "CH"]
     const opsRow1 = ["7", "8", "9", "X"]
     const opsRow2 = ["4", "5", "6", "-"]
     const opsRow3 = ["1", "2", "3", "/"]
