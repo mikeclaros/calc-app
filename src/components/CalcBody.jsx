@@ -5,10 +5,13 @@ import { HistoryDisplay } from './HistoryDisplay'
 
 export function CalcBody() {
     const [number, setNumber] = useState("")
+    const [prevCalculatedValue, setPrevCalculatedValue] = useState("")
     const [historyList, setHistoryList] = useState(JSON.parse(sessionStorage.getItem('historyList')) || [])
     const [prevCalculated, setCalculated] = useState(false)
     const [active, setActive] = useState(false)
     const HISTORY_LEN = 10
+    const operPattern = /[+|\-|/|*]/g
+    const numPattern = /[0-9]|\./g
 
     useEffect(() => {
         sessionStorage.setItem('historyList', JSON.stringify(historyList))
@@ -35,6 +38,7 @@ export function CalcBody() {
             })
             let element = [`${expression} = ${val}`]
             console.log("count: " + count)
+            setPrevCalculatedValue(() => val)
             setHistoryList(() =>
                 (count < HISTORY_LEN) ? [...historyList, element] : [element]
             )
@@ -46,14 +50,14 @@ export function CalcBody() {
     function validateInput(expression) {
         // we don't want consecutive same tokens
         // we don't want consecutive operator tokens (i.e 2+-2)
-        let tokens = expression.split("")
-        let pattern = /[+|\-|/|*|.]/g
+
+        let tokens = expression.toString().split("")
         for (let i = 0; i < tokens.length; i++) {
             if (i + 1 < tokens.length) {
                 let token = tokens[i]
-                if (token.match(pattern)) {
+                if (token.match(operPattern)) {
                     let nextToken = tokens[i + 1]
-                    if (nextToken.match(pattern))
+                    if (nextToken.match(operPattern))
                         return false
                 }
             }
@@ -62,8 +66,7 @@ export function CalcBody() {
     }
 
     function spacedExpression(number) {
-        let expression = number.split("")
-        let numPattern = /[0-9]|\./g
+        let expression = number.toString().split("")
         let spacesIncluded = ""
         expression.forEach(val => {
             if (val.match(numPattern)) {
@@ -86,8 +89,6 @@ export function CalcBody() {
 
         let tokens = expression.split(" ")
         let ops = [], postfix = []
-        let operPattern = /[+|\-|/|*]/g
-        let numPattern = /[0-9]/g
         while (tokens.length > 0) {
             //let token = tokens[i++]
             let token = tokens.shift()
@@ -122,11 +123,10 @@ export function CalcBody() {
     }
 
     function processPostFix(arr) {
-        let pattern = /[+|\-|/|*]/g
         let stack = []
         while (arr.length > 0) {
             let item = arr.shift()
-            if (item.match(pattern)) {
+            if (item.match(operPattern)) {
                 console.log("op: ", item)
                 let right = parseFloat(stack.pop())
                 let left = parseFloat(stack.pop())
@@ -174,8 +174,9 @@ export function CalcBody() {
         let keyEntered = e.key
         let pattern = /([0-9])|\+|-|\/|\*/g
         let match = keyEntered.match(pattern)
+
         if (match)
-            setNumber((num) => num + e.key)
+            handleDefaultCase(keyEntered)
 
         //other scenarios
         if (e.key === "c")
@@ -191,13 +192,10 @@ export function CalcBody() {
     function handleClick(e) {
         let val = e.target.innerText
         checkPrevCalculated()
-        setActive((active) => (active) ? !active : active) //if active then deactivate
+        setActive((active) => (active) ? !active : active) //don't want to toggle, just turn off
         switch (val) {
             case "C":
                 setNumber(() => "")
-                break;
-            case "X":
-                setNumber((num) => num + "*")
                 break;
             case "BACKSPACE":
                 handleBackSpace(e)
@@ -205,10 +203,29 @@ export function CalcBody() {
             case "CH":
                 handleClearClick(e)
                 break;
+            case "X":
+                val = "*"
             default:
-                setNumber((num) => num + val)
+                handleDefaultCase(val)
                 break;
         }
+    }
+
+    function handleDefaultCase(val) {
+        val = prevCalcHandle(val)
+        if (val.match(numPattern) && prevCalculated !== '') {
+            setPrevCalculatedValue(() => '')
+        }
+
+        setNumber((num) => num + val)
+    }
+
+    function prevCalcHandle(val) {
+        if (val.match(operPattern) && prevCalculatedValue !== '') {
+            val = prevCalculatedValue + val
+            setPrevCalculatedValue(() => '')
+        }
+        return val
     }
 
     function handleClearClick(e) {
@@ -217,7 +234,12 @@ export function CalcBody() {
     }
 
     function handleBackSpace(e) {
-        if (prevCalculated) return
+        if (prevCalculated) {
+            let tmpStr = prevCalculatedValue.toString() // gets interpreted as number for some reason, so force to str
+            setNumber(() => tmpStr.slice(0, tmpStr.length - 1))
+            setPrevCalculatedValue(() => '')
+            return
+        }
         setNumber(() => number.slice(0, number.length - 1))
     }
 
