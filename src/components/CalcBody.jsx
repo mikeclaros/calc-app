@@ -4,7 +4,7 @@ import { Banner } from './Banner'
 import { HistoryDisplay } from './HistoryDisplay'
 
 export function CalcBody() {
-    const [number, setNumber] = useState("")
+    const [number, setNumber] = useState("0")
     const [prevCalculatedValue, setPrevCalculatedValue] = useState("")
     const [historyList, setHistoryList] = useState(JSON.parse(sessionStorage.getItem('historyList')) || [])
     const [prevCalculated, setCalculated] = useState(false)
@@ -48,7 +48,7 @@ export function CalcBody() {
     }
 
     function validateInput(expression) {
-        // we don't want consecutive same tokens
+        // we don't want consecutive same op tokens
         // we don't want consecutive operator tokens (i.e 2+-2)
 
         let tokens = expression.toString().split("")
@@ -90,8 +90,11 @@ export function CalcBody() {
         let tokens = expression.split(" ")
         let ops = [], postfix = []
         while (tokens.length > 0) {
-            //let token = tokens[i++]
-            let token = tokens.shift()
+            if (tokens[0] === "" && tokens[1] === "-") {
+                tokens.shift() //remove empty string created from having non-num val at beginning of expression
+                tokens.unshift(0)
+            }
+            let token = tokens.shift().toString()
             if (token.match(numPattern)) {
                 postfix.push(token)
             } else if (token.match(operPattern)) {
@@ -195,7 +198,8 @@ export function CalcBody() {
         setActive((active) => (active) ? !active : active) //don't want to toggle, just turn off
         switch (val) {
             case "C":
-                setNumber(() => "")
+                setNumber(() => "0")
+                setPrevCalculatedValue(() => '')
                 break;
             case "BACKSPACE":
                 handleBackSpace(e)
@@ -203,6 +207,8 @@ export function CalcBody() {
             case "CH":
                 handleClearClick(e)
                 break;
+            // case NEGATIVE_SYM:
+            //     val = "-"
             case "X":
                 val = "*"
             default:
@@ -212,15 +218,15 @@ export function CalcBody() {
     }
 
     function handleDefaultCase(val) {
-        val = prevCalcHandle(val)
+        val = checkIfPrevCalc(val)
         if (val.match(numPattern) && prevCalculated !== '') {
             setPrevCalculatedValue(() => '')
         }
-
-        setNumber((num) => num + val)
+        setNumber((num) => (num === '0' && !val.match(operPattern)) ? val : num + val) // if num is 0 let new num replace 0
     }
 
-    function prevCalcHandle(val) {
+    function checkIfPrevCalc(val) {
+        //if there is an op and a prev calc done, then assign the op to the previous calc
         if (val.match(operPattern) && prevCalculatedValue !== '') {
             val = prevCalculatedValue + val
             setPrevCalculatedValue(() => '')
@@ -231,6 +237,7 @@ export function CalcBody() {
     function handleClearClick(e) {
         sessionStorage.clear()
         setHistoryList(() => [])
+        setPrevCalculatedValue(() => '0')
     }
 
     function handleBackSpace(e) {
@@ -240,13 +247,14 @@ export function CalcBody() {
             setPrevCalculatedValue(() => '')
             return
         }
-        setNumber(() => number.slice(0, number.length - 1))
+        setNumber(() => (number.toString().length < 2) ? '0' : number.slice(0, number.length - 1))
     }
 
     function handleDivActive(e) {
         setActive((active) => !active) //toggle
     }
 
+    //const NEGATIVE_SYM = "+⇄-"
     const CLEAR = ["BACKSPACE", "C", "CH"]
     const opsRow1 = ["7", "8", "9", "X"]
     const opsRow2 = ["4", "5", "6", "-"]
