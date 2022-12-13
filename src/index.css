@@ -42,11 +42,13 @@
 }
 
 .btnBackSpace {
-    width: 75px;
+    width: 10em;
+    height: 5em;
 }
 
 .btnSmaller {
-    width: 50px;
+    width: 5em;
+    height: 5em;
 }
 
 .border-window {
@@ -55,6 +57,7 @@
     align-items: flex-start;
     margin-top: 50px;
     margin-bottom: 20px;
+    margin-left: 1em;
     background-color: #c7e0e6;
     width: 25em;
     height: 2em;
