@@ -162,17 +162,8 @@ export function CalcBody() {
         return stack[0]
     }
 
-    function checkPrevCalculated() {
-        if (prevCalculated) {
-            console.log('clearing')
-            setNumber(() => "")
-            setCalculated(() => false)
-        }
-    }
-
     function handleKey(e) {
         //main keys
-        checkPrevCalculated()
         setActive((active) => (active) ? !active : active) //if active then deactivate
         let keyEntered = e.key
         let pattern = /([0-9])|\+|-|\/|\*/g
@@ -194,7 +185,6 @@ export function CalcBody() {
 
     function handleClick(e) {
         let val = e.target.innerText
-        checkPrevCalculated()
         setActive((active) => (active) ? !active : active) //don't want to toggle, just turn off
         switch (val) {
             case "C":
@@ -218,16 +208,18 @@ export function CalcBody() {
     }
 
     function handleDefaultCase(val) {
-        val = checkIfPrevCalc(val)
+        val = prefixPrevCalcIfExist(val)
         if (val.match(numPattern) && prevCalculated !== '') {
             setPrevCalculatedValue(() => '')
         }
         setNumber((num) => (num === '0' && !val.match(operPattern)) ? val : num + val) // if num is 0 let new num replace 0
     }
 
-    function checkIfPrevCalc(val) {
+    function prefixPrevCalcIfExist(val) {
         //if there is an op and a prev calc done, then assign the op to the previous calc
-        if (val.match(operPattern) && prevCalculatedValue !== '') {
+        // if history was cleared and a previous calc is still displayed allow use of that previous calc
+        if (val.match(operPattern) && prevCalculatedValue !== '' && number === '') {
+            console.log('VAL: ' + val + '\nNUMBER: ' + number)
             val = prevCalculatedValue + val
             setPrevCalculatedValue(() => '')
         }
@@ -237,7 +229,6 @@ export function CalcBody() {
     function handleClearClick(e) {
         sessionStorage.clear()
         setHistoryList(() => [])
-        setPrevCalculatedValue(() => '0')
     }
 
     function handleBackSpace(e) {
@@ -245,6 +236,7 @@ export function CalcBody() {
             let tmpStr = prevCalculatedValue.toString() // gets interpreted as number for some reason, so force to str
             setNumber(() => tmpStr.slice(0, tmpStr.length - 1))
             setPrevCalculatedValue(() => '')
+            setCalculated(() => false)
             return
         }
         setNumber(() => (number.toString().length < 2) ? '0' : number.slice(0, number.length - 1))
