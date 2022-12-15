@@ -9,10 +9,9 @@
 - nodejs
 - npm
 ## Steps to run
-- download nodejs
 - clone repo
 - install dependencies
 - npm run start (note: this is will run in development mode)
 
 ## Screenshot:
-WIP
+<img src="./calc-app-demo.png" width="60%" height="40%">
