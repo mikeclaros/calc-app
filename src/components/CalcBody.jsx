@@ -50,18 +50,57 @@ export function CalcBody() {
     function validateInput(expression) {
         // we don't want consecutive same op tokens
         // we don't want consecutive operator tokens (i.e 2+-2)
+        // we don't more than 1 dot count in lhs or rhs expression (i.e 2.3.2 + 1.2)
 
         let tokens = expression.toString().split("")
         for (let i = 0; i < tokens.length; i++) {
             if (i + 1 < tokens.length) {
                 let token = tokens[i]
-                if (token.match(operPattern)) {
-                    let nextToken = tokens[i + 1]
-                    if (nextToken.match(operPattern))
-                        return false
-                }
+                let nextToken = tokens[i + 1]
+                // consecutive match
+                if (token.match(operPattern) && nextToken.match(operPattern)) return false
             }
         }
+
+        //at most 2 dots in an expression, if more return syntax error
+        let count = 0
+        for (let i = 0; i < tokens.length; i++) {
+            let element = tokens[i]
+            if (element === '.') {
+                count++
+            }
+            if (count > 2) {
+                return false
+            }
+
+        }
+
+        //check lhs and rhs for more than 2
+        let lhsTokens = expression.toString().split(operPattern)[0].toString().split("")
+        let rhsTokens = expression.toString().split(operPattern)[1].toString().split("")
+
+        count = 0
+        for (let i = 0; i < lhsTokens.length; i++) {
+            let element = lhsTokens[i]
+            if (element === '.') {
+                count++
+            }
+            if (count > 1) {
+                return false
+            }
+        }
+
+        count = 0
+        for (let i = 0; i < rhsTokens.length; i++) {
+            let element = rhsTokens[i]
+            if (element === '.') {
+                count++
+            }
+            if (count > 1) {
+                return false
+            }
+        }
+
         return true
     }
 
