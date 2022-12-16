@@ -71,6 +71,7 @@
     font-size: 20px;
     font-family: monospace;
     color: #0a1113;
+    overflow: scroll;
 }
 
 .history-window {
@@ -84,6 +85,7 @@
     font-size: 18px;
     font-family: "Lucida Console", "Courier New", monospace;
     color: black;
+    overflow: scroll;
 }
 
 .text-right {
